@@ -55,6 +55,10 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class UStaticMeshComponent* Mesh2P;
 
+	//camera
+	UPROPERTY(VisibleDefaultsOnly, Category = Gameplay)
+		class UCameraComponent* Camera;
+
 	/** Gun mesh: 1st person view (seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* FP_Gun;

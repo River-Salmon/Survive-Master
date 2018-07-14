@@ -16,11 +16,15 @@ ATurretBase::ATurretBase()
 	BaseLookUpRate = 45.f;
 	Mesh1P = CreateAbstractDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
 	Mesh2P = CreateAbstractDefaultSubobject<UStaticMeshComponent>(TEXT("MESH2"));
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CAMERA"));
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BOX"));
 	RootComponent = CollisionBox;
 	CollisionBox->bVisible = true;
 	CollisionBox->bHiddenInGame = true;
 	Mesh1P->SetupAttachment(RootComponent, NAME_None);
+	Camera->SetupAttachment(RootComponent, NAME_None);
+	Mesh2P->SetupAttachment(Camera, NAME_None);
+	Camera->bUsePawnControlRotation = true;
 }
 
 // Called when the game starts or when spawned
