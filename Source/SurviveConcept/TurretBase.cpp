@@ -11,9 +11,12 @@ ATurretBase::ATurretBase()
 	// Set size for collision capsule
 	
 
-	// set our turn rates for input
+	// init of default balance vars
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
+	FireInterval = 0.5f;
+
+	//Component init
 	Mesh1P = CreateAbstractDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
 	Mesh2P = CreateAbstractDefaultSubobject<UStaticMeshComponent>(TEXT("MESH2"));
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CAMERA"));
@@ -21,6 +24,8 @@ ATurretBase::ATurretBase()
 	RootComponent = CollisionBox;
 	CollisionBox->bVisible = true;
 	CollisionBox->bHiddenInGame = true;
+
+	//attachment order
 	Mesh1P->SetupAttachment(RootComponent, NAME_None);
 	Camera->SetupAttachment(RootComponent, NAME_None);
 	Mesh2P->SetupAttachment(Camera, NAME_None);
@@ -43,9 +48,11 @@ void ATurretBase::Tick(float DeltaTime)
 
 void ATurretBase::Fire_Implementation()
 {
-	FActorSpawnParameters spawnInfo;
-	spawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	GetWorld()->SpawnActor<ACanonProjectile>(ProjectileClass, GetActorLocation(), FRotator(0, 0, 0), spawnInfo);
+	//fire using the location of the turret and the control rotation of the player
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.bNoFail = true;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, GetActorLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), SpawnParams);
 }
 // Called to bind functionality to input
 void ATurretBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -60,6 +67,10 @@ void ATurretBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("TurnRate", this, &ATurretBase::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ATurretBase::LookUpAtRate);
+
+	// Bind fire event
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ATurretBase::OnFireInput);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ATurretBase::OnFireRelease);
 }
 void ATurretBase::TurnAtRate(float Rate)
 {
@@ -72,3 +83,18 @@ void ATurretBase::LookUpAtRate(float Rate)
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
+
+void ATurretBase::OnFireInput()
+{
+	Fire();
+
+	//loop a timer that fires the projectile on the time interval
+	GetWorldTimerManager().SetTimer(ShotTimer, this, &ATurretBase::Fire, FireInterval, true, .1f);
+}
+
+void ATurretBase::OnFireRelease()
+{
+	//clear the timer so it stops shooting
+	GetWorldTimerManager().ClearTimer(ShotTimer);
+}
+

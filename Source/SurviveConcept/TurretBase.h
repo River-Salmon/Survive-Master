@@ -59,6 +59,10 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Gameplay)
 		class UCameraComponent* Camera;
 
+	//Projectile Class property to set what actor it shoots
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	class UClass* ProjectileClass;
+
 	/** Gun mesh: 1st person view (seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USkeletalMeshComponent* FP_Gun;
@@ -75,12 +79,15 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		class USceneComponent* FP_MuzzleLocation_2;
 
+	FTimerHandle ShotTimer;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class UClass* ProjectileClass;
+	float FireInterval;
 
 protected:
 
-	
+	//which barrel to fire the projectile out of
+	bool bUseLeftBarrel;
 
 	/**
 	* Called via input to turn at a given rate.
@@ -93,6 +100,13 @@ protected:
 	* @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	*/
 	void LookUpAtRate(float Rate);
+
+	//Handle the fire input
+	virtual void OnFireInput();
+
+	//Handle releasing the fire input
+	virtual void OnFireRelease();
+
 
 protected:
 
