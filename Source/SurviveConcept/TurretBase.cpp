@@ -21,6 +21,8 @@ ATurretBase::ATurretBase()
 	Mesh2P = CreateAbstractDefaultSubobject<UStaticMeshComponent>(TEXT("MESH2"));
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CAMERA"));
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BOX"));
+	FP_MuzzleLocation_1 = CreateDefaultSubobject<USceneComponent>(TEXT("LEFTMUZZLE"));
+	FP_MuzzleLocation_2 = CreateDefaultSubobject<USceneComponent>(TEXT("RIGHTMUZZLE"));
 	RootComponent = CollisionBox;
 	CollisionBox->bVisible = true;
 	CollisionBox->bHiddenInGame = true;
@@ -30,6 +32,8 @@ ATurretBase::ATurretBase()
 	Camera->SetupAttachment(RootComponent, NAME_None);
 	Mesh2P->SetupAttachment(Camera, NAME_None);
 	Camera->bUsePawnControlRotation = true;
+	FP_MuzzleLocation_1->SetupAttachment(Mesh2P, NAME_None);
+	FP_MuzzleLocation_2->SetupAttachment(Mesh2P, NAME_None);
 }
 
 // Called when the game starts or when spawned
@@ -52,7 +56,21 @@ void ATurretBase::Fire_Implementation()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.bNoFail = true;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, GetActorLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), SpawnParams);
+
+	//set the barrel we're using
+	FVector SpawnLoc;
+	if (bUseLeftBarrel)
+	{
+		SpawnLoc = FP_MuzzleLocation_1->GetComponentLocation();
+	}
+	else
+	{
+		SpawnLoc = FP_MuzzleLocation_2->GetComponentLocation();
+	}
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnLoc, UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), SpawnParams);
+
+	//switch the barrel for the next time we fire
+	bUseLeftBarrel = !bUseLeftBarrel;
 }
 // Called to bind functionality to input
 void ATurretBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
