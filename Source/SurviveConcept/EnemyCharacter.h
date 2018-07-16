@@ -59,5 +59,7 @@ protected:
 	bool bMovingTowardCore;
 	
 	virtual void MoveUpdate();
+
+	class AActor* TargetPlayer;
 	
 };

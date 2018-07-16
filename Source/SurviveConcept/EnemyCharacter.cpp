@@ -43,6 +43,7 @@ void AEnemyCharacter::MoveTowardPlayer_Implementation()
 
 void AEnemyCharacter::AggroResponse_Implementation(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
+	TargetPlayer = OtherActor;
 	bMovingTowardCore = false;
 	MoveTowardPlayer();
 	GetWorldTimerManager().SetTimer(FireTimer, this, &AEnemyCharacter::FireProjectile, FireInterval, true, .1f);
@@ -57,9 +58,9 @@ void AEnemyCharacter::FireProjectile_Implementation()
 	FRotator RotTowardPlayer;
 	FVector DeltaVector;
 	//sanity checked location delta to prevent crashing
-	if (UGameplayStatics::GetPlayerPawn(this, 0))
+	if (TargetPlayer)
 	{
-		DeltaVector = FVector(UGameplayStatics::GetPlayerPawn(this, 0)->GetActorLocation() - GetActorLocation());
+		DeltaVector = FVector(TargetPlayer->GetActorLocation() - GetActorLocation());
 	}
 	else
 	{
