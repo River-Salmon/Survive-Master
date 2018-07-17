@@ -13,7 +13,7 @@ class SURVIVECONCEPT_API AAuto_Turret : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	// Sets default values for this actor's properties 
 	AAuto_Turret();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
