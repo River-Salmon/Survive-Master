@@ -63,3 +63,4 @@ Session.vim
 
 # Visual Studio
 .vs
+Plugins/UE4GitPlugin-master/Binaries/Win64/UE4Editor.modules
