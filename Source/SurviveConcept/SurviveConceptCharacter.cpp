@@ -140,7 +140,7 @@ void ASurviveConceptCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 void ASurviveConceptCharacter::OnFire()
 {
-	// try and fire a projectile
+	/* try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
 		UWorld* const World = GetWorld();
@@ -183,7 +183,7 @@ void ASurviveConceptCharacter::OnFire()
 		{
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
-	}
+	}*/
 }
 
 void ASurviveConceptCharacter::OnResetVR()
