@@ -19,9 +19,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USphereComponent* AggroSphere;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
-		void AggroResponse(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class USceneComponent* MuzzlePoint;
 
@@ -37,19 +34,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		float FireInterval;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		float ShotSpread;
-
-	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		class UClass* ProjectileClass;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	class AActor* TargetActor;
-
-	FTimerHandle FireTimer;
 
 public:	
 	// Called every frame
