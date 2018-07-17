@@ -19,6 +19,13 @@ void AGun::FireProjectile_Implementation()
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), ActorSpawnParams);
 }
 
+void AGun::Server_FireProjectile_Implementation()
+{
+	FActorSpawnParameters ActorSpawnParams;
+	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), ActorSpawnParams);
+}
+
 void AGun::StartFireInput_Implementation()
 {
 	FireProjectile();
