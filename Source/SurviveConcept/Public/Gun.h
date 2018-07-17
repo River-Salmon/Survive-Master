@@ -19,6 +19,11 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
 	void FireProjectile();
 
+	UFUNCTION(Server, Reliable, WithValidation, Category = Gameplay)
+	void Server_FireProjectile();
+
+	bool Server_FireProjectile_Validate() { return true; };
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 	class UStaticMeshComponent* Mesh;
 
