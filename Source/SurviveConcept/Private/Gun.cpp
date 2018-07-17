@@ -19,7 +19,7 @@ void AGun::FireProjectile_Implementation()
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), ActorSpawnParams);
 }
 
-void AGun::StartFireInput()
+void AGun::StartFireInput_Implementation()
 {
 	FireProjectile();
 	if (Automatic)
@@ -27,7 +27,7 @@ void AGun::StartFireInput()
 		GetWorldTimerManager().SetTimer(ShotTimer, this, &AGun::FireProjectile, FireInterval, true, .1f);
 	}
 }
-void AGun::EndFireInput()
+void AGun::EndFireInput_Implementation()
 {
 	GetWorldTimerManager().ClearTimer(ShotTimer);
 }

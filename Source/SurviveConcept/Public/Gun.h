@@ -42,9 +42,11 @@ public:
 
 	FTimerHandle ShotTimer;
 	
-	virtual void StartFireInput();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
+	void StartFireInput();
 
-	virtual void EndFireInput();
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
+	void EndFireInput();
 
 
 
