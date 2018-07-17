@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine.h"
+#include "Engine.h "
 #include "GameFramework/Actor.h"
 #include "Gun.generated.h"
 
@@ -17,25 +17,36 @@ public:
 	AGun();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
-		void FireProjectile();
+	void FireProjectile();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
-		class UStaticMeshComponent* Mesh;
+	class UStaticMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	class UClass* ProjectileClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		float FireInterval;
+	float FireInterval;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		int32 Energy;
+	int32 Energy;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		float ShotSpread;
+	float ShotSpread;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		bool Automatic;
+	bool Automatic;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USceneComponent* MuzzlePoint;
+	class USceneComponent* MuzzlePoint;
+
+	FTimerHandle ShotTimer;
+	
+	virtual void StartFireInput();
+
+	virtual void EndFireInput();
+
+
 
 protected:
 	// Called when the game starts or when spawned
