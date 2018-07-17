@@ -13,7 +13,7 @@ AAuto_Turret::AAuto_Turret()
 	MuzzlePoint = CreateDefaultSubobject<USceneComponent>(TEXT("MUZZLE"));
 	Mesh1P = CreateAbstractDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
 	Mesh2P = CreateAbstractDefaultSubobject<UStaticMeshComponent>(TEXT("MESH2"));
-	RootComponent = AggroSphere;
+	RootComponent = AggroSphere; 
 	AggroSphere->SetupAttachment(RootComponent, NAME_None);
 	Mesh1P->SetupAttachment(RootComponent, NAME_None);
 	Mesh2P->SetupAttachment(RootComponent, NAME_None);
