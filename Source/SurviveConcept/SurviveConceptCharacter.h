@@ -45,11 +45,22 @@ class ASurviveConceptCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
 
+	
+
 public:
 	ASurviveConceptCharacter();
 
+	//Inline functions for getting and setting health
+	UFUNCTION(BlueprintPure, Category = Gameplay)
+	float GetHealth() { return Health; };
+
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+	float SetHealth(float inHealth) { Health = inHealth;  return Health; };
+
 protected:
 	virtual void BeginPlay();
+
+	float Health;
 
 public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
