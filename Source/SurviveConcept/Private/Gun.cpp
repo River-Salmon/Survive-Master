@@ -64,6 +64,12 @@ int32 AGun::GetEnergy()
 	return Energy;
 }
 
+int32 AGun::GetMaxEnergy()
+{
+	return MaxEnergy;
+}
+
+
 int32 AGun::SetEnergy(int32 inEnergy)
 {
 	Energy = inEnergy;
