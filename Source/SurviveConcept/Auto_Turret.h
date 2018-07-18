@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
 		void FireProjectile();
 
+	UFUNCTION(Server, Reliable, WithValidation, Category = Gameplay)
+		void Server_FireProjectile();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		float FireInterval;
 
