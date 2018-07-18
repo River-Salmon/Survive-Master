@@ -13,11 +13,17 @@ AGun::AGun()
 	MuzzlePoint->SetupAttachment(RootComponent);
 
 	//default values
+	bReplicates = true;
+	bReplicateMovement = true;
 	MaxEnergy = 32;
 	Energy = MaxEnergy;
 }
 void AGun::FireProjectile_Implementation()
 {
+	if (Role < ROLE_Authority)
+	{
+		Server_FireProjectile();
+	}
 	if (Energy > 0)
 	{
 		Energy--;
@@ -34,6 +40,12 @@ void AGun::Server_FireProjectile_Implementation()
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), ActorSpawnParams);
 }
+
+bool AGun::Server_FireProjectile_Validate()
+{
+	return true;
+}
+
 
 void AGun::StartFireInput_Implementation()
 {
