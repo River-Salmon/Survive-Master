@@ -45,6 +45,9 @@ public:
 	UFUNCTION(BlueprintPure, Category=Gameplay)
 	int32 GetEnergy();
 
+	UFUNCTION(BlueprintPure, Category = Gameplay)
+	int32 GetMaxEnergy();
+
 	UFUNCTION(BlueprintCallable, Category=Gameplay)
 	int32 SetEnergy(int32 inEnergy);
 
