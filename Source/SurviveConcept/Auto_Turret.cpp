@@ -38,6 +38,10 @@ void AAuto_Turret::AggroResponse_Implementation(class UPrimitiveComponent* HitCo
 
 void AAuto_Turret::FireProjectile_Implementation()
 {
+	if (Role < ROLE_Authority)
+	{
+		Server_FireProjectile();
+	}
 	FActorSpawnParameters ActorSpawnParams;
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
@@ -58,6 +62,30 @@ void AAuto_Turret::FireProjectile_Implementation()
 	//Fire the Projectile
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), SpawnRotation, ActorSpawnParams);
 }
+
+void AAuto_Turret::Server_FireProjectile_Implementation()
+{
+	FActorSpawnParameters ActorSpawnParams;
+	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	FRotator SpawnRotation;
+	FRotator RotTowardTarget;
+	FVector DeltaVector;
+	//sanity checked location delta to prevent crashing
+	if (TargetActor)
+	{
+		DeltaVector = FVector(TargetActor->GetActorLocation() - GetActorLocation());
+	}
+	else
+	{
+		DeltaVector = FVector(0, 0, 0);
+	}
+	RotTowardTarget = FRotationMatrix::MakeFromX(DeltaVector).Rotator();
+	SpawnRotation = FRotator(FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Pitch, FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Yaw, FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Roll);
+	//Fire the Projectile
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), SpawnRotation, ActorSpawnParams);
+}
+
 
 // Called when the game starts or when spawned
 void AAuto_Turret::BeginPlay()

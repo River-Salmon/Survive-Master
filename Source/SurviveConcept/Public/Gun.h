@@ -22,10 +22,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
 	void FireEffects();
 
-	UFUNCTION(Server, Reliable, WithValidation, Category = Gameplay)
+	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_FireProjectile();
 
-	bool Server_FireProjectile_Validate() { return true; };
+	bool Server_FireProjectile_Validate();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 	class UStaticMeshComponent* Mesh;
