@@ -82,6 +82,8 @@ ASurviveConceptCharacter::ASurviveConceptCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+	bReplicates = true;
+	bReplicateMovement = true;
 }
 
 void ASurviveConceptCharacter::BeginPlay()
@@ -140,7 +142,7 @@ void ASurviveConceptCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 void ASurviveConceptCharacter::OnFire()
 {
-	// try and fire a projectile
+	/* try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
 		UWorld* const World = GetWorld();
@@ -183,7 +185,7 @@ void ASurviveConceptCharacter::OnFire()
 		{
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
-	}
+	}*/
 }
 
 void ASurviveConceptCharacter::OnResetVR()
@@ -297,4 +299,15 @@ bool ASurviveConceptCharacter::EnableTouchscreenMovement(class UInputComponent* 
 	}
 	
 	return false;
+}
+
+float ASurviveConceptCharacter::GetHealth()
+{
+	return Health;
+}
+
+float ASurviveConceptCharacter::SetHealth(float inHealth)
+{
+	Health = inHealth;
+	return Health;
 }

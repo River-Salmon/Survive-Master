@@ -45,11 +45,22 @@ class ASurviveConceptCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
 
+	
+
 public:
 	ASurviveConceptCharacter();
 
+	//Inline functions for getting and setting health
+	UFUNCTION(BlueprintPure, Category = Gameplay)
+	float GetHealth();
+
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+	float SetHealth(float inHealth);
+
 protected:
 	virtual void BeginPlay();
+
+	float Health;
 
 public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -79,6 +90,10 @@ public:
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
+
+	/** Maximum Health of the character */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	float MaxHealth;
 
 protected:
 	

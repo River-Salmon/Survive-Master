@@ -13,6 +13,8 @@ AEnemyCharacter::AEnemyCharacter()
 	AggroSphere->OnComponentBeginOverlap.AddDynamic(this, &AEnemyCharacter::AggroResponse);
 	ShotSpread = 3.0f;
 	FireInterval = 0.5f;
+	bReplicates = true;
+	bReplicateMovement = true;
 }
 
 void AEnemyCharacter::BeginPlay()
