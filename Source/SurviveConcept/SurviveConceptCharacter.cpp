@@ -82,6 +82,8 @@ ASurviveConceptCharacter::ASurviveConceptCharacter()
 
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
+	bReplicates = true;
+	bReplicateMovement = true;
 }
 
 void ASurviveConceptCharacter::BeginPlay()
