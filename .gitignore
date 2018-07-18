@@ -68,3 +68,4 @@ Session.vim
 Plugins/UE4GitPlugin-master/Binaries/Win64/UE4Editor.modules
 
 Plugins/UE4GitPlugin-master/Binaries/Win64/UE4Editor-GitSourceControl.dll
+*.modules

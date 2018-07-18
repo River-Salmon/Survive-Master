@@ -19,6 +19,14 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
 	void FireProjectile();
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
+	void FireEffects();
+
+	UFUNCTION(Server, Reliable, WithValidation, Category = Gameplay)
+	void Server_FireProjectile();
+
+	bool Server_FireProjectile_Validate() { return true; };
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 	class UStaticMeshComponent* Mesh;
 
@@ -30,6 +38,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	int32 Energy;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	int32 MaxEnergy;
+
+	UFUNCTION(BlueprintPure, Category=Gameplay)
+	int32 GetEnergy();
+
+	UFUNCTION(BlueprintCallable, Category=Gameplay)
+	int32 SetEnergy(int32 inEnergy);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	float ShotSpread;
