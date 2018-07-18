@@ -298,3 +298,14 @@ bool ASurviveConceptCharacter::EnableTouchscreenMovement(class UInputComponent* 
 	
 	return false;
 }
+
+float ASurviveConceptCharacter::GetHealth()
+{
+	return Health;
+}
+
+float ASurviveConceptCharacter::SetHealth(float inHealth)
+{
+	Health = inHealth;
+	return Health;
+}
