@@ -17,34 +17,42 @@ public:
 	AAuto_Turret();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USphereComponent* AggroSphere;
+	class USphereComponent* AggroSphere;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
-		void AggroResponse(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+	void AggroResponse(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
+	void EndAggro(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
-		class USceneComponent* MuzzlePoint;
+	class USceneComponent* MuzzlePoint;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class UStaticMeshComponent* Mesh1P;
+	class UStaticMeshComponent* Mesh1P;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		class UStaticMeshComponent* Mesh2P;
+	class UStaticMeshComponent* Mesh2P;
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = Gameplay)
-		void FireProjectile();
+	void FireProjectile();
 
 	UFUNCTION(Server, Reliable, WithValidation, Category = Gameplay)
-		void Server_FireProjectile();
+	void Server_FireProjectile();
+
+	bool Server_FireProjectile_Validate();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		float FireInterval;
+	float FireInterval;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-		float ShotSpread;
+	float ShotSpread;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	int32 ScrapCost;
 
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-		class UClass* ProjectileClass;
+	class UClass* ProjectileClass;
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,6 +61,8 @@ protected:
 	class AActor* TargetActor;
 
 	FTimerHandle FireTimer;
+
+	float SphereStartRadius;
 
 public:	
 	// Called every frame
