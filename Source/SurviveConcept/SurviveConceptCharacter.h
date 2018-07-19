@@ -60,6 +60,7 @@ public:
 protected:
 	virtual void BeginPlay();
 
+	UPROPERTY(EditDefaultsOnly, Category = Gameplay)
 	float Health;
 
 public:

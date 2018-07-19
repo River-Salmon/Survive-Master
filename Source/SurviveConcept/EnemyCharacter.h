@@ -44,9 +44,6 @@ public:
 	float FireInterval;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	float Health;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	float ShotSpread;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
