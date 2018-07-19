@@ -84,6 +84,7 @@ ASurviveConceptCharacter::ASurviveConceptCharacter()
 	//bUsingMotionControllers = true;
 	bReplicates = true;
 	bReplicateMovement = true;
+	Health = 100.0f;
 }
 
 void ASurviveConceptCharacter::BeginPlay()
