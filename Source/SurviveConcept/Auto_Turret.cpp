@@ -24,16 +24,28 @@ AAuto_Turret::AAuto_Turret()
 	
 
 	AggroSphere->OnComponentBeginOverlap.AddDynamic(this, &AAuto_Turret::AggroResponse);
+	AggroSphere->OnComponentEndOverlap.AddDynamic(this, &AAuto_Turret::EndAggro);
 
 	//set default values
 	FireInterval = 0.2f;
 	ShotSpread = 3.0f;
+	SphereStartRadius = AggroSphere->GetUnscaledSphereRadius();
 }
 
 void AAuto_Turret::AggroResponse_Implementation(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
 {
 	TargetActor = OtherActor;
 	GetWorldTimerManager().SetTimer(FireTimer, this, &AAuto_Turret::FireProjectile, FireInterval, true, .1f);
+}
+
+void AAuto_Turret::EndAggro_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	//stop shooting
+	GetWorldTimerManager().ClearTimer(FireTimer);
+	//check if an enemy is still there so we can shoot at a new target
+	AggroSphere->SetSphereRadius(5.0f, false);
+	AggroSphere->SetSphereRadius(SphereStartRadius, true);
+
 }
 
 void AAuto_Turret::FireProjectile_Implementation()
@@ -60,7 +72,9 @@ void AAuto_Turret::FireProjectile_Implementation()
 	RotTowardTarget = FRotationMatrix::MakeFromX(DeltaVector).Rotator();
 	SpawnRotation = FRotator(FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Pitch, FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Yaw, FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Roll);
 	//Fire the Projectile
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), SpawnRotation, ActorSpawnParams);
+	AActor* SpawnedProjectile;
+	SpawnedProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), SpawnRotation, ActorSpawnParams);
+	//SpawnedProjectile->SetOwner(this);
 }
 
 void AAuto_Turret::Server_FireProjectile_Implementation()
@@ -83,7 +97,14 @@ void AAuto_Turret::Server_FireProjectile_Implementation()
 	RotTowardTarget = FRotationMatrix::MakeFromX(DeltaVector).Rotator();
 	SpawnRotation = FRotator(FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Pitch, FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Yaw, FMath::FRandRange(ShotSpread*-1, ShotSpread) + RotTowardTarget.Roll);
 	//Fire the Projectile
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), SpawnRotation, ActorSpawnParams);
+	AActor* SpawnedProjectile;
+	SpawnedProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), SpawnRotation, ActorSpawnParams);
+	//SpawnedProjectile->SetOwner(this);
+}
+
+bool AAuto_Turret::Server_FireProjectile_Validate()
+{
+	return true;
 }
 
 
