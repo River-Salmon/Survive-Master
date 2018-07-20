@@ -31,7 +31,7 @@ void AGun::FireProjectile_Implementation()
 		FireEffects();
 		FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		SpawnedProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), ActorSpawnParams);
+		SpawnedProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), GetOwner()->GetInstigatorController()->GetControlRotation(), ActorSpawnParams);
 		//SpawnedProjectile->SetOwner(this);
 	}
 }
@@ -41,7 +41,7 @@ void AGun::Server_FireProjectile_Implementation()
 	AActor* SpawnedProjectile;
 	FActorSpawnParameters ActorSpawnParams;
 	ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnedProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), UGameplayStatics::GetPlayerController(this, 0)->GetControlRotation(), ActorSpawnParams);
+	SpawnedProjectile = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzlePoint->GetComponentLocation(), GetOwner()->GetInstigatorController()->GetControlRotation(), ActorSpawnParams);
 	//SpawnedProjectile->SetOwner(this);
 }
 
